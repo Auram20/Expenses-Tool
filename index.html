@@ -52,28 +52,32 @@
                             <img src="https://dummyimage.com/100x75/000/fff.jpg" data-file="receipt1.jpg"
                                 style="display:none;">
                     </td>
+
+                    <input id="file-input-0" type="file" class="hidden" onchange="fileSelected(event, 0)">
+                    </td>
+                    <!-- <td><button type="button" onclick="deleteRow(this)">Delete</button></td>-->
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" onclick="addRow()">Add Row</button>
+        <button type="button" onclick="deleteLastRow()">Delete Last Row</button>
+        <h2 class="total" align="right">Total Amount:
+            <input id="total">
+        </h2>
     </div>
-    <input id="file-input-0" type="file" class="hidden" onchange="fileSelected(event, 0)">
-    </td>
-     <!-- <td><button type="button" onclick="deleteRow(this)">Delete</button></td>-->
-    </tr>
-    </tbody>
-    </table>
-    <button type="button" onclick="addRow()">Add Row</button>
-    <button type="button" onclick="deleteLastRow()">Delete Last Row</button>
-    <h5>Total Amount:
-        <input id="total">
-    </h5>
+
 
     <div>
         Add the manager's approval screenshot
         <input type="file" id="file-input" accept=".jpg,.png,.pdf" onChange="addApproval()">
         <div id="image-container"></div>
     </div>
+
+    
     <br />
     <div class="dldDiv">
-        <button onclick="generateFPage()" class="download">Table only PDF</button>
-        <button onclick="mergeFiles()" class="download">Merge Receipts PDF</button>
+        <button onclick="generateFPage()" class="download">Table And Infos only PDF</button>
+        <button onclick="mergeFiles()" class="download">Merged Receipts PDF</button>
         <button onclick="generateFULLPDF()" class="download">Full PDF</button>
     </div>
 

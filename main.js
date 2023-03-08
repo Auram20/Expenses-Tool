@@ -96,105 +96,67 @@ function fileSelected(event, row) {
 }
 
 
-function mergeFiles() {
-    window.jsPDF = window.jspdf.jsPDF;
 
-    const doc = new jsPDF({
-        orientation: "portrait",
-        unit: "pt",
-        format: "a4",
-    });
-    let fileNames = [];
-
-    // Loop through each row in the table
-    const rows = document.querySelectorAll("#expenses-table tbody tr");
-    rows.forEach((row) => {
-        const fileNameCell = row.querySelector(".file-drop");
-
-        const fileName = fileNameCell.textContent.trim();
-
-        if (fileName !== "") {
-            fileNames.push(fileName);
-        } else {
-            alert("One receipt is missing.");
-            return;
-        }
-    });
-
-    if (fileNames.length > 0) {
-        // Loop through each file name and add to doc
-        fileNames.forEach((fileName) => {
-            const imgData = document.querySelector(`img[data-file="${fileName}"]`);
-
-            let _W = imgData.width
-            let _H = imgData.height
-            const maxHeight = 842
-            const maxWidth = 595
-            var ratio = Math.min(maxWidth / _W, maxHeight / _H);
-
-            if (imgData.width > 595 || imgData.height > 842) {
-                _W = _W * ratio
-                _H = _H * ratio
-            }
-
-            console.log(imgData.width + " " + imgData.height)
-            if (imgData) {
-                doc.addImage(imgData.src, "JPEG", 10, 10, _W, _H);
-                if (fileName !== fileNames[fileNames.length - 1]) {
-                    doc.addPage();
-                }
-            } else {
-                alert(`Image data for ${fileName} not found.`);
-            }
-        });
-
-        // Download the merged file
-        doc.save("Receipts.pdf");
-    }
+function sumCells() {
+  const amounts = document.querySelectorAll('.amount');
+  let sum = 0;
+  amounts.forEach((amount) => {
+    sum += parseFloat(amount.value) || 0;
+  });
+  document.getElementById("total").value = sum;
 }
 
+function addApproval() {
+  const fileInput = document.getElementById('file-input');
+  const imageContainer = document.getElementById('image-container');
+  const file = fileInput.files[0];
+  const reader = new FileReader();
 
+  reader.addEventListener('load', () => {
+    const image = new Image();
+    image.src = reader.result;
+
+    // Remove previous image element, if any
+    const previousImage = imageContainer.querySelector('img');
+    if (previousImage) {
+      imageContainer.removeChild(previousImage);
+    }
+
+    imageContainer.appendChild(image);
+    fileInput.classList.add('approval-selected');
+  });
+  //imageContainer.style.display = "none";
+
+  reader.readAsDataURL(file);
+}
+
+// Generate the FIRST PDF
 function generateFPage() {
     // Create a new jsPDF instance
     window.jsPDF = window.jspdf.jsPDF;
     const doc = new jsPDF('landscape');
-
     // Get the HTML content to be converted to PDF
-    const table = document.getElementById("expenses-table");
+    const table = document.getElementById("fPageContent");
     const inputs = document.getElementById("infos");
-
-    // Calculate the width and height of the PDF page in pixels
-    const pdfWidth = doc.internal.pageSize.getWidth();
-    const pdfHeight = doc.internal.pageSize.getHeight();
-
-    // Calculate the scale factor for the HTML content to fit within the PDF page
-    const scaleFactor = Math.min(pdfWidth / table.offsetWidth, pdfHeight / (inputs.offsetHeight + 20));
-
-    // Generate the PDF
-    doc.html(table, {
-        x: 10,
-        y: 30,
-        callback: function () {
-            // Add the second HTML content after the first one
-            doc.addPage();
-            doc.html(inputs, {
-                x: 10,
-                y: 10,
-                callback: function () {
-                    doc.save("FirstPage.pdf");
-                },
-                html2canvas: {
-                    scale: scaleFactor
-                }
-            });
-        },
-        html2canvas: {
-            scale: scaleFactor
-        }
+    const tableScaleFactor = Math.min(    doc.internal.pageSize.getWidth() / (table.offsetWidth +60) ,  doc.internal.pageSize.getHeight() / (table.offsetHeight + 20)
+    );
+    console.log(doc.internal.pageSize.getWidth() / (table.offsetWidth +60) )
+    console.log(doc.internal.pageSize.getHeight() / (table.offsetHeight + 20))
+    console.log(tableScaleFactor)
+     // Generate the first page of the PDF
+     doc.html(table, {
+      x: 10,
+      y: 20,
+      html2canvas: {
+        scale: tableScaleFactor,
+      },
+      callback: function () {
+        doc.save("FP");
+      },
     });
-}
+  }
 
-
+// Generate the FULL PDF
 function generateFULLPDF() {
     window.jsPDF = window.jspdf.jsPDF;
     const doc = new jsPDF({
@@ -208,7 +170,7 @@ function generateFULLPDF() {
   
     // Calculate the scale factor for the HTML content to fit within the PDF page
     const tableScaleFactor = Math.min(
-      doc.internal.pageSize.getWidth() / table.offsetWidth,
+      doc.internal.pageSize.getWidth() / (table.offsetWidth +60),
       doc.internal.pageSize.getHeight() / (inputs.offsetHeight + 20)
     );
   
@@ -249,29 +211,33 @@ function generateFULLPDF() {
               if (fileName !== rows[rows.length - 1].querySelector(".file-drop").textContent.trim()) {
                 doc.addPage('portrait');
               }
-            } else {
-              alert(`Image data for ${fileName} not found.`);
+            } 
+            else {
+              alert("One or more receipts are missing.");
             }
-          } else {
-            alert("One receipt is missing.");
-            return;
-          }
+          } 
         });
 
         doc.addPage('portrait')
-        const imgApproval = document.getElementById(`image-container`).querySelector('img');
-        
-        let _W = imgApproval.width;
-        let _H = imgApproval.height;
-        const maxHeight = 842;
-        const maxWidth = 595;
-        const ratio = Math.min(maxWidth / _W, maxHeight / _H);
 
-        if (_W > maxWidth || _H > maxHeight) {
-          _W = _W * ratio;
-          _H = _H * ratio;
+        const imgApproval = document.getElementById(`image-container`).querySelector('img');
+
+        if (imgApproval) {        
+          let _W = imgApproval.width;
+          let _H = imgApproval.height;
+          const maxHeight = 842;
+          const maxWidth = 595;
+          const ratio = Math.min(maxWidth / _W, maxHeight / _H);
+
+          if (_W > maxWidth || _H > maxHeight) {
+            _W = _W * ratio;
+            _H = _H * ratio;
+          }
+          doc.addImage(imgApproval.src, "JPEG", 10, 10, _W, _H);
         }
-        doc.addImage(imgApproval.src, "JPEG", 10, 10, _W, _H);
+        else {
+          alert("Approval of manager is missing.");
+        }
         
         const _name= document.getElementById("name").value
         const _date= document.getElementById("date").value
@@ -284,43 +250,59 @@ function generateFULLPDF() {
   }
   
 
-
-
-
-
-  function sumCells() {
-    const amounts = document.querySelectorAll('.amount');
-    let sum = 0;
-    amounts.forEach((amount) => {
-      sum += parseFloat(amount.value) || 0;
+// Generate the MERGED RECEIPTS
+  function mergeFiles() {
+    window.jsPDF = window.jspdf.jsPDF;
+    const doc = new jsPDF({
+        orientation: "portrait",
+        unit: "pt",
+        format: "a4",
     });
-    document.getElementById("total").value = sum;
-  }
-  
+    let fileNames = [];
 
+    // Loop through each row in the table
+    const rows = document.querySelectorAll("#expenses-table tbody tr");
+    
+    rows.forEach((row) => {
+        const fileNameCell = row.querySelector(".file-drop");
 
+        const fileName = fileNameCell.textContent.trim();
 
-  function addApproval() {
-    const fileInput = document.getElementById('file-input');
-    const imageContainer = document.getElementById('image-container');
-    const file = fileInput.files[0];
-    const reader = new FileReader();
-  
-    reader.addEventListener('load', () => {
-      const image = new Image();
-      image.src = reader.result;
-  
-      // Remove previous image element, if any
-      const previousImage = imageContainer.querySelector('img');
-      if (previousImage) {
-        imageContainer.removeChild(previousImage);
-      }
-  
-      imageContainer.appendChild(image);
-      fileInput.classList.add('approval-selected');
+        if (fileName !== "") {
+            fileNames.push(fileName);
+        } else {
+            alert("One receipt is missing.");
+            return;
+        }
     });
-    //imageContainer.style.display = "none";
-  
-    reader.readAsDataURL(file);
-  }
-  
+    console.log(fileNames)
+    if (fileNames.length > 0) {
+        // Loop through each file name and add to doc
+        fileNames.forEach((fileName) => {
+            const imgData = document.querySelector(`img[data-file="${fileName}"]`);
+
+            let _W = imgData.width
+            let _H = imgData.height
+            const maxHeight = 842
+            const maxWidth = 595
+            var ratio = Math.min(maxWidth / _W, maxHeight / _H);
+
+            if (imgData.width > 595 || imgData.height > 842) {
+                _W = _W * ratio
+                _H = _H * ratio
+            }
+
+            console.log(imgData.width + " " + imgData.height)
+            if (imgData) {
+                doc.addImage(imgData.src, "JPEG", 10, 10, _W, _H);
+                if (fileName !== fileNames[fileNames.length - 1]) {
+                    doc.addPage();
+                }
+            } else {
+                alert(`Image data for ${fileName} not found.`);
+            }
+        });
+        // Download the merged file
+        doc.save("Receipts.pdf");
+    }
+}
