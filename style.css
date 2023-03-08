@@ -71,3 +71,33 @@ button {
 .dldDiv{
     text-align: center;
 }
+
+
+
+#expenses-table td:first-child {
+    width: 5%;
+}
+
+#expenses-table td:nth-child(2) {
+    width: 15%;
+}
+
+#expenses-table td:nth-child(3){
+    width: 60%;
+}
+
+#expenses-table td:nth-child(4)  {
+    width: 5%;
+}
+
+#expenses-table td:nth-child(5) {
+    width: 5%;
+}
+
+#expenses-table td:nth-child(6)  {
+    width: 10%;
+}
+
+#expenses-table td:nth-child(2) > input  , #expenses-table td:nth-child(3) > input , #expenses-table td:nth-child(4) > input , #expenses-table td:nth-child(5) > input , #expenses-table td:nth-child(6) > input {
+    width: 90%;
+}
