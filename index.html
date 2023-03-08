@@ -34,7 +34,7 @@
                     <th>Project Number</th>
                     <th>Amount</th>
                     <th>Receipt</th>
-                    <th>Action</th>
+                    <!-- <th>Action</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -55,11 +55,12 @@
     </div>
     <input id="file-input-0" type="file" class="hidden" onchange="fileSelected(event, 0)">
     </td>
-    <td><button type="button" onclick="deleteRow(this)">Delete</button></td>
+     <!-- <td><button type="button" onclick="deleteRow(this)">Delete</button></td>-->
     </tr>
     </tbody>
     </table>
     <button type="button" onclick="addRow()">Add Row</button>
+    <button type="button" onclick="deleteLastRow()">Delete Last Row</button>
     <h5>Total Amount:
         <input id="total">
     </h5>

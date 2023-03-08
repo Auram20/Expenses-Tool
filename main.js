@@ -13,7 +13,7 @@ function addRow() {
     var projectNumberCell = row.insertCell(3);
     var amountCell = row.insertCell(4);
     var fileCell = row.insertCell(5);
-    var cell7 = row.insertCell(6);
+    //var cell7 = row.insertCell(6);
 
     // add content to cells
     rowNumberCell.innerHTML = rowNumber;
@@ -29,13 +29,13 @@ Click to upload
 <img class="hidden" data-file="" />
 `;
 
-    var deleteButton = document.createElement("button");
+    /*var deleteButton = document.createElement("button");
     deleteButton.innerHTML = "Delete";
     deleteButton.onclick = function () {
         table.deleteRow(rowNumber);
         sumCells()
     };
-    cell7.appendChild(deleteButton);
+    cell7.appendChild(deleteButton); */
 
 }
 
@@ -44,6 +44,15 @@ function deleteRow(button) {
     row.parentNode.removeChild(row);
     sumCells()
 }
+
+function deleteLastRow() {
+  var table = document.getElementById("expenses-table");
+  var lastRow = table.rows.length - 1; // Get index of last row
+  table.deleteRow(lastRow); // Delete last row
+
+  sumCells(); // Recalculate total amount
+}
+
 
 function dragOver(event) {
     event.preventDefault();
