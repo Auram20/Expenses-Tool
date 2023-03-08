@@ -20,7 +20,7 @@ function addRow() {
     dateCell.innerHTML = '<input type="date" />';
     descriptionCell.innerHTML = '<input type="text" />';
     projectNumberCell.innerHTML = '<input type="text" />';
-    amountCell.innerHTML = '<input type="number" class="amount"/>';
+    amountCell.innerHTML = '<input type="number" class="amount" step="0.0001"  oninput="sumCells()"/>';
     fileCell.innerHTML = `
 <div class="file-drop" ondragover="dragOver(event)" ondrop="dropFile(event, ${rowNumber})" onclick="document.getElementById('file-input-${rowNumber}').click()">
 Drop a file here or click to upload

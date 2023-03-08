@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <div id="fPageContent" oninput="sumCells()">
+    <div id="fPageContent">
     <h1>Expenses</h1>
     <form id="infos" >
         <label for="company">Company:</label>
@@ -43,7 +43,7 @@
                 <td><input type="date" name="date"></td>
                 <td><input type="text" name="description"></td>
                 <td><input type="text" name="project_number"></td>
-                <td><input type="number" name="amount" class="amount"></td>
+                <td><input type="number" name="amount" class="amount" step="0.0001"  oninput="sumCells()"></td>
                 <td class="file-cell">
 
                     <div class="file-drop" ondragover="dragOver(event)" ondrop="dropFile(event, 0)"
