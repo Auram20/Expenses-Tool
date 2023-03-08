@@ -47,6 +47,10 @@ button {
     background-color: rgba(117, 235, 117, 0.464);
 }
 
+.approval-selected {
+    background-color: rgba(117, 235, 117, 0.464);
+}
+
 
 
 .download {

@@ -84,6 +84,7 @@ function fileSelected(event, row) {
     document.body.appendChild(img);
 }
 
+
 function mergeFiles() {
     window.jsPDF = window.jspdf.jsPDF;
 
@@ -245,6 +246,21 @@ function generateFULLPDF() {
             return;
           }
         });
+
+        doc.addPage('portrait')
+        const imgApproval = document.getElementById(`image-container`).querySelector('img');
+        
+        let _W = imgApproval.width;
+        let _H = imgApproval.height;
+        const maxHeight = 842;
+        const maxWidth = 595;
+        const ratio = Math.min(maxWidth / _W, maxHeight / _H);
+
+        if (_W > maxWidth || _H > maxHeight) {
+          _W = _W * ratio;
+          _H = _H * ratio;
+        }
+        doc.addImage(imgApproval.src, "JPEG", 10, 10, _W, _H);
         
         const _name= document.getElementById("name").value
         const _date= document.getElementById("date").value
@@ -268,5 +284,32 @@ function generateFULLPDF() {
       sum += parseFloat(amount.value) || 0;
     });
     document.getElementById("total").value = sum;
+  }
+  
+
+
+
+  function addApproval() {
+    const fileInput = document.getElementById('file-input');
+    const imageContainer = document.getElementById('image-container');
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+  
+    reader.addEventListener('load', () => {
+      const image = new Image();
+      image.src = reader.result;
+  
+      // Remove previous image element, if any
+      const previousImage = imageContainer.querySelector('img');
+      if (previousImage) {
+        imageContainer.removeChild(previousImage);
+      }
+  
+      imageContainer.appendChild(image);
+      fileInput.classList.add('approval-selected');
+    });
+    imageContainer.style.display = "none";
+  
+    reader.readAsDataURL(file);
   }
   

@@ -59,11 +59,16 @@
     </tr>
     </tbody>
     </table>
-    <h5>Total :
+    <button type="button" onclick="addRow()">Add Row</button>
+    <h5>Total Amount:
         <input id="total">
     </h5>
+
+    <div>
+        Add the manager's approval screenshot
+        <input type="file" id="file-input" accept=".jpg,.png,.pdf" onChange="addApproval()">       
+        <div id="image-container"></div>
     </div>
-    <button type="button" onclick="addRow()">Add Row</button>
     <br />
     <div class="dldDiv">
         <button onclick="generateFPage()" class="download">Table only PDF</button>
