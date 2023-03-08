@@ -23,7 +23,7 @@ function addRow() {
     amountCell.innerHTML = '<input type="number" class="amount" step="0.0001"  oninput="sumCells()"/>';
     fileCell.innerHTML = `
 <div class="file-drop" ondragover="dragOver(event)" ondrop="dropFile(event, ${rowNumber})" onclick="document.getElementById('file-input-${rowNumber}').click()">
-Drop a file here or click to upload
+Click to upload
 </div>
 <input id="file-input-${rowNumber}" type="file" class="hidden" onchange="fileSelected(event, ${rowNumber})">
 <img class="hidden" data-file="" />
