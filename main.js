@@ -4,7 +4,7 @@ function addRow() {
     var table = document.getElementById("expenses-table");
     var rowCount = table.rows.length;
     var row = table.insertRow(rowCount);
-    var rowNumber = rowCount - 1;
+    var rowNumber = rowCount ;
 
     // create cells
     var rowNumberCell = row.insertCell(0);
@@ -33,6 +33,7 @@ Click to upload
     deleteButton.innerHTML = "Delete";
     deleteButton.onclick = function () {
         table.deleteRow(rowNumber);
+        sumCells()
     };
     cell7.appendChild(deleteButton);
 
@@ -41,6 +42,7 @@ Click to upload
 function deleteRow(button) {
     var row = button.parentNode.parentNode;
     row.parentNode.removeChild(row);
+    sumCells()
 }
 
 function dragOver(event) {
@@ -308,7 +310,7 @@ function generateFULLPDF() {
       imageContainer.appendChild(image);
       fileInput.classList.add('approval-selected');
     });
-    imageContainer.style.display = "none";
+    //imageContainer.style.display = "none";
   
     reader.readAsDataURL(file);
   }
