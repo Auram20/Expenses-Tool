@@ -46,3 +46,24 @@ button {
 .file-drop.file-selected {
     background-color: rgba(117, 235, 117, 0.464);
 }
+
+
+
+.download {
+    height: 40px;
+    background: black;
+    border-radius: 5px;
+    position: relative;
+    color: #fff;
+    cursor: pointer;
+    border: 1px solid #fff;
+  }
+
+.download:hover {
+    -webkit-filter: invert(100%);
+    filter: invert(100%);
+  }
+
+.dldDiv{
+    text-align: center;
+}
