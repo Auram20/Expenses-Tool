@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Expenses Tracker</title>
+    <link rel="stylesheet" href="style.css">  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.16/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"  type="module"></script> 
+    <script src="main.js" ></script>
+</head>
+
+<body>
+    <div id="fPageContent" oninput="sumCells()">
+    <h1>Expenses</h1>
+    <form id="infos" >
+        <label for="company">Company:</label>
+        <input type="text" name="company" id="company" value="Vizrt France SARL">
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name">
+        <label for="currency">Currency:</label>
+        <input type="text" name="currency" id="currency" value="EURO">
+        <label for="date">Date:</label>
+        <input type="date" name="date" id="date">
+    </form>
+    <br/>
+    <table id="expenses-table">
+        <thead>
+            <tr>
+                <th>Row Number</th>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Project Number</th>
+                <th>Amount</th>
+                <th>Receipt</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>0</td>
+                <td><input type="date" name="date"></td>
+                <td><input type="text" name="description"></td>
+                <td><input type="text" name="project_number"></td>
+                <td><input type="number" name="amount" class="amount"></td>
+                <td class="file-cell">
+
+                    <div class="file-drop" ondragover="dragOver(event)" ondrop="dropFile(event, 0)"
+                        onclick="document.getElementById('file-input-0').click()">
+                        Drop a file here or click to upload
+                        <img src="https://dummyimage.com/100x75/000/fff.jpg" data-file="receipt1.jpg" style="display:none;"></td>
+                    </div>
+                    <input id="file-input-0" type="file" class="hidden" onchange="fileSelected(event, 0)">
+                </td>
+                <td><button type="button" onclick="deleteRow(this)">Delete</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <h5>Total : 
+    <input id="total"> </h5>
+</div>
+    <button type="button" onclick="addRow()">Add Row</button>
+    <button onclick="generateFPage()">First page </button>
+    <button onclick="mergeFiles()">Merge Receipts </button>
+    <button onclick="generateFULLPDF()">FULL PDF</button>
+
+
+
+</body>
+
+</html>

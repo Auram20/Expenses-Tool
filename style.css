@@ -1,0 +1,48 @@
+table {
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+}
+
+table th,
+table td {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+table th {
+    background-color: #cccccc;
+}
+
+button {
+    margin: 10px;
+}
+
+.file-drop {
+    padding: 5px;
+    border: 2px dashed #bbbbbb;
+    border-radius: 5px;
+    background-color: #eeeeee;
+    cursor: pointer;
+}
+
+.file-drop:hover {
+    border-color: #555555;
+    background-color: #dddddd;
+}
+
+.hidden {
+    display: none;
+}
+
+.file-drop {
+    background-color: rgba(255, 80, 80, 0.366);
+}
+
+.file-drop.drag-over {
+    background-color: rgba(255, 193, 79, 0.371);
+}
+
+.file-drop.file-selected {
+    background-color: rgba(117, 235, 117, 0.464);
+}
